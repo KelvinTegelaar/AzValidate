@@ -12,7 +12,7 @@ else {
   $Logo = ""
 }
 
-$Username = ([System.Web.HttpUtility]::ParseQueryString($Request.Body))['username']
+$Username = $Request.Query.username
 
 if ($Username) {
   import-module .\PSfunctions.psm1
