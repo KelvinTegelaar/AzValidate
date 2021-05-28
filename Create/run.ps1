@@ -12,10 +12,11 @@ else {
   $Logo = ""
 }
 
-$Username = ([System.Web.HttpUtility]::ParseQueryString($Request.Body))
+$Username = ([System.Web.HttpUtility]::ParseQueryString($Request.Body))['username']
 
 if ($Username) {
   import-module .\PSfunctions.psm1
+  import-module MSOnline -UseWindowsPowerShell
   $MFARequest = New-MFARequest -EmailToPush $Username
   $RequestText = @"
 $MFARequest

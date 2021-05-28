@@ -9,7 +9,6 @@ function New-MFARequest {
     $RefreshToken = $ENV:Refreshtoken
     $Genpass = $ENV:GeneratedPassword
     ######### Secrets #########
-
     write-host "Creating credentials and tokens." -ForegroundColor Green
     $credential = New-Object System.Management.Automation.PSCredential($ApplicationId, ($ApplicationSecret | Convertto-SecureString -AsPlainText -Force))
     $aadGraphToken = New-PartnerAccessToken -ApplicationId $ApplicationId -Credential $credential -RefreshToken $refreshToken -Scopes 'https://graph.windows.net/.default' -ServicePrincipal
@@ -50,6 +49,6 @@ function New-MFARequest {
         return "Authentication failed. does the user have Push/Phone call MFA configured? Errorcode: $($obj.BeginTwoWayAuthenticationResponse.result)"
     }
     if ($obj.BeginTwoWayAuthenticationResponse.result) {
-        return "Success"
+        return "Success. Received a MFA confirmation: $($obj.BeginTwoWayAuthenticationResponse.result) "
     }
 }
