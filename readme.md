@@ -1,20 +1,10 @@
-﻿# AzPWPush
+﻿# AzValidate
 
-AzPwPush is a password push tool that can be used to generate URLs with a one-time password. Use cases are sharing temporary credentials or validating someone's access.
-
-It's possible to use both generated passwords, or self-entered passwords.
+Validates the identity of a user by sending them a push message using Azure MFA
 
 ## How it works
 
-When deploying this function to Azure, the function will have 3 URLS
-
-/Generate - Generates a password from a 10000 word wordlist. The password will exists out of 3 words, and 5 random characters.
-
-/Create - Creates a unique password and URL/
-
-/Get - allows you to retrieve the password. The password will also immediately be destroyed, invalidating the URL for future use.
-
-A Cleanup function runs every hour to clean up the old password files. This is done based on the Maximum Age.
+When deploying this function to Azure, the function will have 1 URL called /create. Visit this page to send a request.
 
 ## Todo
 
