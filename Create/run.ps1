@@ -4,7 +4,7 @@ param($Request, $TriggerMetadata)
 
 # Write to the Azure Functions log stream.
 Write-Host "PowerShell HTTP trigger function processed a request."
-.\PSfunctions.ps1
+
 if (-not [string]::IsNullOrEmpty($ENV:Logo)) {
   $Logo = "<img src=`"$($ENV:Logo)`" alt=`"Logo`">"
 }
@@ -12,9 +12,10 @@ else {
   $Logo = ""
 }
 
-$Username = ([System.Web.HttpUtility]::ParseQueryString($Request.Body)).username
+$Username = ([System.Web.HttpUtility]::ParseQueryString($Request.Body))
 
 if ($Username) {
+  import-module .\PSfunctions.psm1
   $MFARequest = New-MFARequest -EmailToPush $Username
   $RequestText = @"
 $MFARequest
@@ -22,9 +23,9 @@ $MFARequest
 }
 else {
   $RequestText = @"
-  <form action="create" method=POST>
+  <form action="create" method="POST">
     <label for="Username">Username</label><br>
-    <input type="text" id="username" value="user@user.com"><br>
+    <input type="text" name="username" id="username" value="user@user.com"><br>
     Use the Create button below to generate a MFA push towards the user.<br>
     <input class="button" name="Submit" type="submit" value="Create">
   </form>
@@ -36,7 +37,7 @@ $Body = @"
 <!DOCTYPE html>
 <html>
 <style>
-input#Username, select {
+input, select {
   width: 70%;
   padding: 12px 20px;
   margin: 8px 0;
