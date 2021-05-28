@@ -46,9 +46,9 @@ function New-MFARequest {
     $obj = Invoke-RestMethod -uri 'https://adnotifications.windowsazure.com/StrongAuthenticationService.svc/Connector//BeginTwoWayAuthentication' -Method POST -Headers $Headers -Body $XML -ContentType 'application/xml'
 
     if ($obj.BeginTwoWayAuthenticationResponse.AuthenticationResult -ne $true) {
-        return "Authentication failed. does the user have Push/Phone call MFA configured? Errorcode: $($obj.BeginTwoWayAuthenticationResponse.result)"
+        return "Authentication failed. does the user have Push/Phone call MFA configured? Errorcode: $($obj.BeginTwoWayAuthenticationResponse.result.value | out-string)"
     }
     if ($obj.BeginTwoWayAuthenticationResponse.result) {
-        return "Success. Received a MFA confirmation: $($obj.BeginTwoWayAuthenticationResponse.result) "
+        return "Received a MFA confirmation: $($obj.BeginTwoWayAuthenticationResponse.result.value | Out-String)"
     }
 }
