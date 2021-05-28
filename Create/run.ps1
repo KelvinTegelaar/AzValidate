@@ -5,8 +5,8 @@ param($Request, $TriggerMetadata)
 # Write to the Azure Functions log stream.
 Write-Host "PowerShell HTTP trigger function processed a request."
 .\PSfunctions.ps1
-if (-not [string]::IsNullOrEmpty($ENV:LogoImage)) {
-  $Logo = "<img src=`"$($ENV:LogoImage)`" alt=`"Logo`">"
+if (-not [string]::IsNullOrEmpty($ENV:Logo)) {
+  $Logo = "<img src=`"$($ENV:Logo)`" alt=`"Logo`">"
 }
 else {
   $Logo = ""
