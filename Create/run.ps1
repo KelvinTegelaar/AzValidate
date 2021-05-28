@@ -75,8 +75,8 @@ div {
 <body>
 <center>
 $($Logo)
-<title>Password Push Portal</Title>
-<h3>Generate a one-time password URL</h3>
+<title>Identity Confirmation Portal</Title>
+<h3>Confirm an identity by sending a MFA request.</h3>
 
 <div>
 $RequestText
