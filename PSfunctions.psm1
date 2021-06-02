@@ -21,12 +21,13 @@ function New-MFARequest {
     $MFAAppID = '981f26a1-7f43-403b-a875-f8b09b8cd720'
     write-host "Setting temporary password" -ForegroundColor Green
     New-MsolServicePrincipalCredential -TenantId $UserTenantGUID -AppPrincipalId $MFAAppID -Type password -Usage verify -Value $GenPass -Verbose
+    $UPNToPush = (Get-MSOLUser -TenantId $UserTenantGUID  | Where {$_.ProxyAddresses -like "smtp:$EmailToPush"}).UserPrincipalName
     write-host "Generating XML" -ForegroundColor Green
 
     $XML = @"
 <BeginTwoWayAuthenticationRequest>
 <Version>1.0</Version>
-<UserPrincipalName>$EmailToPush</UserPrincipalName>
+<UserPrincipalName>$UPNToPush</UserPrincipalName>
 <Lcid>en-us</Lcid><AuthenticationMethodProperties xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays"><a:KeyValueOfstringstring><a:Key>OverrideVoiceOtp</a:Key><a:Value>false</a:Value></a:KeyValueOfstringstring></AuthenticationMethodProperties><ContextId>69ff05bf-eb61-47f7-a70e-e7d77b6d47d0</ContextId>
 <SyncCall>true</SyncCall><RequireUserMatch>true</RequireUserMatch><CallerName>radius</CallerName><CallerIP>UNKNOWN:</CallerIP></BeginTwoWayAuthenticationRequest>
 "@
